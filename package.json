@@ -4,8 +4,8 @@
   "license": "MIT",
   "scripts": {
     "dev": "parcel serve ./src/index.html",
-    "build": "parcel build ./src/index.html --dist-dir build",
-    "deploy": "gh-pages -d "
+    "build": "parcel build ./src/index.html --dist-dir build --public-url /desafio-m5",
+    "deploy": "gh-pages -d build"
   },
   "devDependencies": {
     "parcel": "^2.7.0"
