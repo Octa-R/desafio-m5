@@ -1,16 +1,17 @@
 {
   "name": "desafio-m5",
   "version": "1.0.0",
-  "main": "index.js",
   "license": "MIT",
   "scripts": {
     "dev": "parcel serve ./src/index.html",
-    "build": "parcel build ./src/index.html"
+    "build": "parcel build ./src/index.html --dist-dir build",
+    "deploy": "gh-pages -d "
   },
   "devDependencies": {
     "parcel": "^2.7.0"
   },
   "dependencies": {
-    "@types/node": "^18.7.14"
+    "@types/node": "^18.7.14",
+    "gh-pages": "^4.0.0"
   }
 }
