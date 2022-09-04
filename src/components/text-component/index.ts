@@ -18,15 +18,19 @@ class TextComponent extends HTMLElement {
         margin:0 auto;
         text-align: center;
         font-family: 'Courier Prime', monospace;
-        max-width:284px;
+        max-width:384px;
+        width:100%;
       }
 
       .title {
         color:var(--verde-oscuro);
         font-size:80px;
+        font-weight: 700;
       }
 
       .p {
+        font-size:40px;
+        font-weight: 600;
         color:var(--negro);
       }
     `;

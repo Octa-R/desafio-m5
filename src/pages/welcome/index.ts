@@ -11,7 +11,6 @@ export function initWelcomePage({ goTo }) {
       this.render();
     }
     render() {
-      const style = document.createElement("style");
       this.shadow.innerHTML = `
         <main class="main">
           <text-component type="title" text="Piedra Papel o Tijera"></text-component>
@@ -23,24 +22,32 @@ export function initWelcomePage({ goTo }) {
           </div>
         </main>
       `;
+      const style = document.createElement("style");
       style.innerHTML = `
         .main {
           box-sizing:border-box;
           height:100vh;
           background-color: #eee;
           background-image: url("${imageURL}");
-          padding:100px 20px;
+          padding:100px 25px;
           display:flex;
           flex-direction:column;
-          align-items:center;
+          align-items:stretch;
           justify-content: space-between;
         }
+        .hands-container {
+          height:50px;
+          width:100%;
+        }
       `;
+      const btn = this.shadow.querySelector("btn-component");
+      btn?.addEventListener("click", (evt) => {
+        console.log(evt.target);
+        goTo("/instructions");
+      });
       this.shadow.appendChild(style);
     }
   }
 
   customElements.define("welcome-page", WelcomePage);
-  const page = document.createElement("welcome-page");
-  return page;
 }

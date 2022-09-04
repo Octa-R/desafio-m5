@@ -5,6 +5,8 @@ class HandComponent extends HTMLElement {
   shadow: ShadowRoot;
   type: string;
   imgUrl: string;
+  size: string;
+  sizes = ["sm", "md", "lg"];
   constructor() {
     super();
     this.shadow = this.attachShadow({ mode: "open" });
@@ -17,6 +19,9 @@ class HandComponent extends HTMLElement {
     } else {
       this.imgUrl = piedraImg;
     }
+    if (this.sizes.includes(this.getAttribute("size") || "")) {
+      this.size = this.getAttribute("size") || "sm";
+    }
   }
   connectedCallback() {
     this.render();
@@ -24,17 +29,51 @@ class HandComponent extends HTMLElement {
   render() {
     const style = document.createElement("style");
     style.innerHTML = `
+      .sm {
+        width:57px;
+      }
+
+      .sm.papel {
+        width:67px;
+      }
+
+      .md {
+        width:100px;
+      }
+
+      .md.papel {
+        width:115px;
+      }
+
+      .lg {
+        width:150px;
+      }
+
+      .lg.papel {
+        width:160px;
+      }
+
+      .img {
+        position: fixed;
+        bottom:-30px;
+        cursor:pointer;
+      }
       .piedra{
-        background-image: url("${piedraImg}")
+        left: 50%;
+        transform: translate(-50%, 0);
       }
+
       .papel{
-        background-image: url("${papelImg}")
+        left: 50%;
+        transform: translate(50%, 0);
       }
+      
       .tijera {
-        background-image: url("${tijerasImg}")
+        left: 50%;
+        transform: translate(-160%, 0);
       }
     `;
-    this.shadow.innerHTML = `<img src="${this.imgUrl}" >`;
+    this.shadow.innerHTML = `<img class="img ${this.type} ${this.size}" src="${this.imgUrl}" >`;
     this.shadow.appendChild(style);
   }
 }

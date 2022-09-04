@@ -1,5 +1,5 @@
 export class Storage {
-  save(key: string, data: { data: {} }) {
+  save(key: string, data: {}) {
     localStorage.setItem(key, JSON.stringify(data));
   }
   get(key): { data: {} } {

@@ -2,46 +2,51 @@ import { initWelcomePage } from "./pages/welcome";
 import { initInstructionsPage } from "./pages/instructions";
 import { initGamePage } from "./pages/game";
 import { initGameOverPage } from "./pages/game-over";
-
 const routes = [
   {
     path: /\//,
-    component: initWelcomePage,
+    component: () => document.createElement("welcome-page"),
+  },
+  {
+    path: /\/welcome/,
+    component: () => document.createElement("welcome-page"),
   },
   {
     path: /\/instructions/,
-    component: initInstructionsPage,
+    component: () => document.createElement("instructions-page"),
   },
   {
     path: /\/game/,
-    component: initGamePage,
+    component: () => document.createElement("game-page"),
   },
   {
     path: /\/game-over/,
-    component: initGameOverPage,
+    component: () => document.createElement("game-over"),
   },
 ];
 
 export function initRouter(container: Element) {
-  function goTo(path) {
+  function goTo(path: string) {
     history.pushState({}, "", path);
     handleRoute(path);
   }
+
+  initGameOverPage({ goTo });
+  initInstructionsPage({ goTo });
+  initWelcomePage({ goTo });
+  initGamePage({ goTo });
 
   function handleRoute(route) {
     console.log("handle route manejo la ruta: ", route);
     for (const r of routes) {
       if (r.path.test(route)) {
-        const el = r.component({ goTo: goTo });
-
+        const el = r.component();
         if (container.firstChild) {
           container.firstChild.remove();
         }
-
         container.appendChild(el);
       }
     }
   }
-
   handleRoute(location.pathname);
 }

@@ -1,8 +1,10 @@
 class ButtonComponent extends HTMLElement {
   shadow: ShadowRoot;
   text: string;
+  listener: () => any;
   constructor() {
     super();
+
     this.shadow = this.attachShadow({ mode: "open" });
     this.text = this.getAttribute("text") || "";
   }
@@ -16,9 +18,9 @@ class ButtonComponent extends HTMLElement {
         font-family:'Odibee Sans', cursive;
         height:84px;
         width:368px;
-        margin-top: 20px;
         background-color: var(--azul-claro);
-        border: solid 5px var(--azul-oscuro);
+        border: 10px solid var(--azul-oscuro);
+        border-radius: 10px;
         color: #eee;
         font-size: 45px;
       }
