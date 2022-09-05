@@ -6,21 +6,37 @@ class CounterComponent extends HTMLElement {
     this.shadow = this.attachShadow({ mode: "open" });
     this.count = Number(this.getAttribute("count") || 3);
   }
-  connectedCallback() {
-    console.log(this.count);
+
+  setAnimationCounter() {
     setTimeout(() => {
       const loading = this.shadow.querySelector(".loading");
-      // ?.style.display = "none";
       loading?.classList.add("hide");
-    }, this.count * 1100);
+    }, this.count * 1000);
+
+    for (let i = 0; i < this.count; i++) {
+      setTimeout(() => {
+        const numberToShow = this.count - i;
+        const numberContainer = <HTMLElement>(
+          this.shadow.querySelector(".number")
+        );
+        numberContainer.innerText = numberToShow.toString();
+      }, i * 1000);
+    }
+  }
+
+  connectedCallback() {
+    this.setAnimationCounter();
     this.render();
   }
+
   render() {
     const style = document.createElement("style");
+
     style.innerHTML = `
       .loading {
         display:flex;
         justify-content: center;
+        align-items:center;
       }
       .hide {
         display:none;
@@ -32,8 +48,14 @@ class CounterComponent extends HTMLElement {
         border: 20px solid #ddd;
         border-top-color: #000;
         border-radius: 50%;
-        animation: loading 1s ease-in-out ;
+        animation: loading 1s linear ;
         animation-iteration-count: ${this.count};
+      }
+      .number {
+        position: absolute;
+        font-size:100px;
+        font-family: 'Odibee Sans', cursive;
+        font-weight:700;
       }
       @keyframes loading {
         to {
@@ -41,7 +63,14 @@ class CounterComponent extends HTMLElement {
         }
       }
     `;
-    this.shadow.innerHTML = `<div class="loading"></div>`;
+
+    this.shadow.innerHTML = `
+      <div class="loading">
+        <div class="number">
+        </div>
+      </div>
+    `;
+
     this.shadow.appendChild(style);
   }
 }

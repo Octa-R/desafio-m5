@@ -26,6 +26,18 @@ class HandComponent extends HTMLElement {
   connectedCallback() {
     this.render();
   }
+
+  addCustomEvent() {
+    const handEl = this.shadow.querySelector(".img");
+    handEl?.addEventListener("click", (e) => {
+      const event = new CustomEvent("player-move", {
+        detail: {
+          move: this.type,
+        },
+      });
+      this.dispatchEvent(event);
+    });
+  }
   render() {
     const style = document.createElement("style");
     style.innerHTML = `
@@ -73,7 +85,13 @@ class HandComponent extends HTMLElement {
         transform: translate(-160%, 0);
       }
     `;
-    this.shadow.innerHTML = `<img class="img ${this.type} ${this.size}" src="${this.imgUrl}" >`;
+    this.shadow.innerHTML = `
+      <img 
+        class="img ${this.type} ${this.size}"
+        src="${this.imgUrl}"
+      >
+    `;
+    this.addCustomEvent();
     this.shadow.appendChild(style);
   }
 }

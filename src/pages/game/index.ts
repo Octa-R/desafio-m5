@@ -6,9 +6,22 @@ export function initGamePage({ goTo }) {
       super();
       this.shadow = this.attachShadow({ mode: "open" });
     }
+
     connectedCallback() {
       this.render();
     }
+
+    addListeners() {
+      const handList = this.shadow.querySelectorAll("hand-component");
+      handList.forEach((item) => {
+        item.addEventListener("player-move", (e) => {
+          const { detail } = e as any;
+          console.log(detail.move);
+        });
+      });
+      console.log("se agrego listener a hands");
+    }
+
     render() {
       const style = document.createElement("style");
       style.innerHTML = `
@@ -39,6 +52,7 @@ export function initGamePage({ goTo }) {
           </div>
         </main>
       `;
+      this.addListeners();
       this.shadow.appendChild(style);
     }
   }
