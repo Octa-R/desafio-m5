@@ -16,6 +16,14 @@ export function initGameOverPage({ goTo }) {
 
     render() {
       const style = document.createElement("style");
+
+      //funcion para limpiar mientras tanto el timeOut generado
+      const highestId = window.setTimeout(() => {
+        for (let i = highestId; i >= 0; i--) {
+          window.clearInterval(i);
+        }
+      }, 0);
+
       style.innerHTML = `
         .main {
           box-sizing:border-box;

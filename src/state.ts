@@ -14,10 +14,16 @@ export const state: State = {
   storage: new Storage(),
   init() {
     const data = this.storage.get("saved-state");
-    this.setState({ data });
+    // console.log("data del storage", data);
+    const { game } = data;
+    const newState = { ...this.data.game, ...game };
+    // console.log("data que se le envia a setState: ", newState);
+    this.setState(newState);
   },
-  setState({ data }) {
+  setState(data) {
+    // console.log("data qu llega al state", data);
     this.data = data;
+    // console.log("se actualizo el state: ", this.data);
     this.storage.save("saved-state", data);
     for (const cb of this.listeners) {
       cb(this.getState());
@@ -29,14 +35,18 @@ export const state: State = {
   subscribe(callback) {
     this.listeners.push(callback);
   },
-  move(move: Play) {
+  move(playerPlay: Play) {
     //la jugada del jugador
-    const { data } = this.getState();
-    data.game.player.push(move);
+    const game = this.getState();
+    // console.log("state dentro de move:", game);
+    game.player.push(playerPlay);
     //jugada de la maquina
     const computerPlay: Play = this.getComputerMove();
-    data.game.computer.push(computerPlay);
-    this.setState(data);
+    game.computer.push(computerPlay);
+    const result = this.whoWins(computerPlay, playerPlay);
+    game.results.push(result);
+    // console.log("state que se genera despues de una jugada:", game);
+    this.setState(game);
   },
   getComputerMove() {
     const randNumber: number = Math.floor(Math.random() * 3);
@@ -66,17 +76,30 @@ export const state: State = {
     return result == 0 ? "empate" : result > 0 ? "player" : "computer";
   },
   getComputerScore() {
-    const { data } = this.getState();
-    const { game } = data;
+    const game = this.getState();
     return game.results.reduce((prev, act) => {
+      // console.log("actual: ", act);
       return act < 0 ? prev + 1 : prev;
     }, 0);
   },
   getPlayerScore() {
-    const { data } = this.getState();
-    const { game } = data;
+    const game = this.getState();
+    // console.log("state dentro de getplayerScore", game);
     return game.results.reduce((prev, act) => {
       return act > 0 ? prev + 1 : prev;
     }, 0);
   },
+  resetResults() {
+    const resetedState = {
+      game: {
+        player: [],
+        computer: [],
+        results: [],
+      },
+    };
+    // console.log("state reset: ", resetedState);
+    this.setState(resetedState.game);
+  },
 };
+
+// state.resetResults();

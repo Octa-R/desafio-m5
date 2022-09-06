@@ -6,11 +6,15 @@ class HandComponent extends HTMLElement {
   type: string;
   imgUrl: string;
   size: string;
+  position: string;
   sizes = ["sm", "md", "lg"];
+  showing: string;
   constructor() {
     super();
+    this.position = this.getAttribute("position") || "";
     this.shadow = this.attachShadow({ mode: "open" });
     this.type = this.getAttribute("type") || "";
+    this.showing = this.getAttribute("showing") || "";
 
     if (this.type === "tijera") {
       this.imgUrl = tijerasImg;
@@ -84,10 +88,28 @@ class HandComponent extends HTMLElement {
         left: 50%;
         transform: translate(-160%, 0);
       }
+
+      .up {
+        top:0;
+        transform: translate(-50%, 0) rotate(0.5turn);
+      }
+      .bottom {
+        right:0;
+        bottom:0;
+        left: 50%;
+        transform: translate(-50%, 0);
+      }
+
+      .centered {
+        left: 50%;
+        transform: translate(-50%, 0);
+      }
     `;
     this.shadow.innerHTML = `
       <img 
-        class="img ${this.type} ${this.size}"
+        class="img ${this.type} ${this.size} ${this.position} ${
+      this.showing ? "centered" : ""
+    }"
         src="${this.imgUrl}"
       >
     `;

@@ -8,9 +8,8 @@ class CounterComponent extends HTMLElement {
   }
 
   setAnimationCounter() {
-    setTimeout(() => {
-      const loading = this.shadow.querySelector(".loading");
-      loading?.classList.add("hide");
+    const timeOut = setTimeout(() => {
+      this.finishevent(timeOut);
     }, this.count * 1000);
 
     for (let i = 0; i < this.count; i++) {
@@ -22,6 +21,18 @@ class CounterComponent extends HTMLElement {
         numberContainer.innerText = numberToShow.toString();
       }, i * 1000);
     }
+  }
+
+  finishevent(timeOut) {
+    window.clearTimeout(timeOut);
+    const loading = this.shadow.querySelector(".loading");
+    loading?.classList.add("hide");
+    const event = new CustomEvent("finished", {
+      detail: {
+        description: "finished counting",
+      },
+    });
+    this.dispatchEvent(event);
   }
 
   connectedCallback() {

@@ -37,7 +37,7 @@ export function initRouter(container: Element) {
   initGamePage({ goTo });
 
   function handleRoute(route) {
-    console.log("handle route manejo la ruta: ", route);
+    // console.log("handle route manejo la ruta: ", route);
     for (const r of routes) {
       if (r.path.test(route)) {
         const el = r.component();
