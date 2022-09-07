@@ -27,17 +27,25 @@ export function initInstructionsPage({ goTo }) {
       const text = `Presioná jugar y elegí: piedra, papel o tijera antes de que pasen los 3 segundos.`;
       this.shadow.innerHTML = `
       <main class="main">
-        <text-component type="p" text="${text}"></text-component>
-        <btn-component text="¡Jugar!"></btn-component>
-          <hand-component type="tijera" ></hand-component>
-          <hand-component type="piedra" ></hand-component>
-          <hand-component type="papel" ></hand-component>
-        </div>
+        <text-component 
+          type="p" 
+          text="${text}">
+        </text-component>
+        <btn-component text="¡Jugar!">
+        </btn-component>
+
+        <hand-component type="tijeras" >
+        </hand-component>
+
+        <hand-component type="piedra" >
+        </hand-component>
+        
+        <hand-component type="papel" >
+        </hand-component>
       </main>
     `;
       const btn = this.shadow.querySelector("btn-component");
       btn?.addEventListener("click", (evt) => {
-        console.log(evt.target);
         goTo("/game");
       });
       this.shadow.appendChild(style);

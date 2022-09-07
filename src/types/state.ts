@@ -24,4 +24,5 @@ export interface State {
   getPlayerScore(): number;
   getComputerMove(): Play;
   resetResults();
+  getLastResult(): number;
 }

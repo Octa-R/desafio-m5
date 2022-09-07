@@ -1,11 +1,14 @@
 const loseStarImg = require("url:./lose.svg");
 const winStarImg = require("url:./win.svg");
+const empateStarSVG = require("url:./empate.svg");
 
 class StarComponent extends HTMLElement {
   shadow: ShadowRoot;
   type: string;
   text: string;
   imgUrl: string;
+  types: string[] = ["win", "lose", "empate"];
+
   constructor() {
     super();
     this.shadow = this.attachShadow({ mode: "open" });
@@ -13,9 +16,12 @@ class StarComponent extends HTMLElement {
     if (this.type === "win") {
       this.text = "Ganaste!";
       this.imgUrl = winStarImg;
-    } else {
+    } else if (this.type === "lose") {
       this.text = "Perdiste!";
       this.imgUrl = loseStarImg;
+    } else if (this.type === "empate") {
+      this.text = "Empate!";
+      this.imgUrl = empateStarSVG;
     }
   }
   connectedCallback() {
@@ -29,6 +35,7 @@ class StarComponent extends HTMLElement {
         text-align: center;
         font-family: 'Courier Prime', monospace;
         width:250px;
+        max-width:250px;
         font-size:55px;
         width:100%;
       }

@@ -1,4 +1,3 @@
-import { state } from "../../state";
 const imageURL = require("url:../../img/fondo.png");
 export function initWelcomePage({ goTo }) {
   class WelcomePage extends HTMLElement {
@@ -16,7 +15,7 @@ export function initWelcomePage({ goTo }) {
           <text-component type="title" text="Piedra Papel o Tijera"></text-component>
           <btn-component text="Empezar"></btn-component>
           <div class="hands-container">
-            <hand-component type="tijera" ></hand-component>
+            <hand-component type="tijeras" ></hand-component>
             <hand-component type="piedra" ></hand-component>
             <hand-component type="papel" ></hand-component>
           </div>
@@ -42,7 +41,6 @@ export function initWelcomePage({ goTo }) {
       `;
       const btn = this.shadow.querySelector("btn-component");
       btn?.addEventListener("click", (evt) => {
-        console.log(evt.target);
         goTo("/instructions");
       });
       this.shadow.appendChild(style);

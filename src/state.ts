@@ -13,24 +13,21 @@ export const state: State = {
   listeners: [],
   storage: new Storage(),
   init() {
-    const data = this.storage.get("saved-state");
-    // console.log("data del storage", data);
-    const { game } = data;
-    const newState = { ...this.data.game, ...game };
-    // console.log("data que se le envia a setState: ", newState);
+    console.log("state init");
+    const { data } = this.storage.get("saved-state");
+    const newState = { ...this.data.game, ...data };
     this.setState(newState);
   },
   setState(data) {
-    // console.log("data qu llega al state", data);
     this.data = data;
-    // console.log("se actualizo el state: ", this.data);
     this.storage.save("saved-state", data);
     for (const cb of this.listeners) {
       cb(this.getState());
     }
   },
   getState() {
-    return this.data;
+    const data = this.storage.get("saved-state");
+    return data;
   },
   subscribe(callback) {
     this.listeners.push(callback);
@@ -38,14 +35,12 @@ export const state: State = {
   move(playerPlay: Play) {
     //la jugada del jugador
     const game = this.getState();
-    // console.log("state dentro de move:", game);
     game.player.push(playerPlay);
     //jugada de la maquina
     const computerPlay: Play = this.getComputerMove();
     game.computer.push(computerPlay);
     const result = this.whoWins(computerPlay, playerPlay);
     game.results.push(result);
-    // console.log("state que se genera despues de una jugada:", game);
     this.setState(game);
   },
   getComputerMove() {
@@ -57,6 +52,11 @@ export const state: State = {
     // -1 gana pc
     // 0 empate
     // 1 gana player
+    // si son iguales -> 0
+    // si pc es tijera ->
+    //    si player papel -> player pierde
+    //    si player piedra -> player gana
+
     if (computer === player) {
       return 0;
     } else {
@@ -72,34 +72,33 @@ export const state: State = {
     }
   },
   matchResult(results: number[]) {
+    //quien va ganando en TOTAL,
+    // todo: ver si la funcion queda o se va
     const result = results.reduce((a, b) => a + b);
     return result == 0 ? "empate" : result > 0 ? "player" : "computer";
   },
   getComputerScore() {
     const game = this.getState();
     return game.results.reduce((prev, act) => {
-      // console.log("actual: ", act);
       return act < 0 ? prev + 1 : prev;
     }, 0);
   },
   getPlayerScore() {
     const game = this.getState();
-    // console.log("state dentro de getplayerScore", game);
     return game.results.reduce((prev, act) => {
       return act > 0 ? prev + 1 : prev;
     }, 0);
   },
+  getLastResult() {
+    const game = this.getState();
+    return game.results.at(-1);
+  },
   resetResults() {
-    const resetedState = {
-      game: {
-        player: [],
-        computer: [],
-        results: [],
-      },
-    };
-    // console.log("state reset: ", resetedState);
-    this.setState(resetedState.game);
+    this.setState({
+      player: [],
+      computer: [],
+      results: [],
+    });
+    // this.setState();
   },
 };
-
-// state.resetResults();

@@ -28,7 +28,6 @@ export function initGamePage({ goTo }) {
       );
       counter.addEventListener("finished", (e) => {
         const evt = e as any;
-        console.log(evt.detail.description);
         this.showHandsAnimation();
       });
     }
@@ -37,7 +36,6 @@ export function initGamePage({ goTo }) {
       const main = <HTMLElement>this.shadow.querySelector(".main");
       main.innerHTML = "";
       const lastState = state.getState() as any;
-      console.log(lastState);
       main.innerHTML = `
       <hand-component 
         size="lg"
@@ -88,7 +86,7 @@ export function initGamePage({ goTo }) {
         <main class="main">
           <counter-component count="3"></counter-component>
           <div class="hands-container">
-            <hand-component size="md" type="tijera" ></hand-component>
+            <hand-component size="md" type="tijeras" ></hand-component>
             <hand-component size="md" type="piedra" ></hand-component>
             <hand-component size="md" type="papel" ></hand-component>
           </div>

@@ -1,9 +1,10 @@
 const papelImg = require("url:./papel.svg");
 const piedraImg = require("url:./piedra.svg");
 const tijerasImg = require("url:./tijera.svg");
+import { Play } from "../../types/play";
 class HandComponent extends HTMLElement {
   shadow: ShadowRoot;
-  type: string;
+  type: Play;
   imgUrl: string;
   size: string;
   position: string;
@@ -13,14 +14,13 @@ class HandComponent extends HTMLElement {
     super();
     this.position = this.getAttribute("position") || "";
     this.shadow = this.attachShadow({ mode: "open" });
-    this.type = this.getAttribute("type") || "";
+    this.type = <Play>this.getAttribute("type");
     this.showing = this.getAttribute("showing") || "";
-
-    if (this.type === "tijera") {
+    if (this.type === "tijeras") {
       this.imgUrl = tijerasImg;
     } else if (this.type === "papel") {
       this.imgUrl = papelImg;
-    } else {
+    } else if (this.type === "piedra") {
       this.imgUrl = piedraImg;
     }
     if (this.sizes.includes(this.getAttribute("size") || "")) {
@@ -84,7 +84,7 @@ class HandComponent extends HTMLElement {
         transform: translate(50%, 0);
       }
       
-      .tijera {
+      .tijeras {
         left: 50%;
         transform: translate(-160%, 0);
       }
