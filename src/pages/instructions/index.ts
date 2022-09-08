@@ -9,6 +9,14 @@ export function initInstructionsPage({ goTo }) {
     connectedCallback() {
       this.render();
     }
+
+    addListeners() {
+      const btn = this.shadow.querySelector("btn-component");
+      btn?.addEventListener("click", (evt) => {
+        goTo("/game");
+      });
+    }
+
     render() {
       const style = document.createElement("style");
       style.innerHTML = `
@@ -44,15 +52,10 @@ export function initInstructionsPage({ goTo }) {
         </hand-component>
       </main>
     `;
-      const btn = this.shadow.querySelector("btn-component");
-      btn?.addEventListener("click", (evt) => {
-        goTo("/game");
-      });
+      this.addListeners();
       this.shadow.appendChild(style);
     }
   }
 
   customElements.define("instructions-page", InstructionsPage);
-  const page = document.createElement("instructions-page");
-  return page;
 }

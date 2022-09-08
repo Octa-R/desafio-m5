@@ -6,9 +6,18 @@ export function initWelcomePage({ goTo }) {
       super();
       this.shadow = this.attachShadow({ mode: "open" });
     }
+
     connectedCallback() {
       this.render();
     }
+
+    addListeners() {
+      const btn = this.shadow.querySelector("btn-component");
+      btn?.addEventListener("click", (evt) => {
+        goTo("/instructions");
+      });
+    }
+
     render() {
       this.shadow.innerHTML = `
         <main class="main">
@@ -39,10 +48,7 @@ export function initWelcomePage({ goTo }) {
           width:100%;
         }
       `;
-      const btn = this.shadow.querySelector("btn-component");
-      btn?.addEventListener("click", (evt) => {
-        goTo("/instructions");
-      });
+      this.addListeners();
       this.shadow.appendChild(style);
     }
   }

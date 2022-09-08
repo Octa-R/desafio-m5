@@ -24,13 +24,17 @@ export function initGameOverPage({ goTo }) {
       }, 0);
 
       this.render();
-      this.addListener();
     }
 
-    addListener() {
+    addListeners() {
       const btn = this.shadow.querySelector(".jugar");
       btn?.addEventListener("click", () => {
         goTo("/game");
+      });
+
+      const resetBtn = <HTMLElement>this.shadow.querySelector(".reset-btn");
+      resetBtn?.addEventListener("click", () => {
+        state.resetResults();
       });
     }
 
@@ -61,6 +65,7 @@ export function initGameOverPage({ goTo }) {
       } else {
         this.starType = "empate";
       }
+
       this.shadow.innerHTML = `
         <main class="main">
           <star-component type="${this.starType}">
@@ -77,12 +82,8 @@ export function initGameOverPage({ goTo }) {
 
         </main>
       `;
-      const main = this.shadow.querySelector(".main");
-      const resetBtn = <HTMLElement>this.shadow.querySelector(".reset-btn");
-      resetBtn?.addEventListener("click", () => {
-        state.resetResults();
-      });
-      main?.appendChild(resetBtn);
+
+      this.addListeners();
       this.shadow.appendChild(style);
     }
   }
