@@ -40,6 +40,7 @@ class HandComponent extends HTMLElement {
         },
       });
       this.dispatchEvent(event);
+      handEl.classList.add("selected");
     });
   }
   render() {
@@ -68,11 +69,17 @@ class HandComponent extends HTMLElement {
       .lg.papel {
         width:160px;
       }
+      .selected {
+        filter: drop-shadow(0 0 0.75rem crimson);
+      }
 
       .img {
         position: fixed;
         bottom:-30px;
         cursor:pointer;
+      }
+      .img:hover {
+        filter: drop-shadow(0 0 0.75rem crimson);
       }
       .piedra{
         left: 50%;
